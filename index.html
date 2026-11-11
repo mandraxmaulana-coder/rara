@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Special Proposal for Rara ❤️</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Cute Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts: Poppins & Dancing Script -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              pinky: {
+                50: "#fff1f2",
+                100: "#ffe4e6",
+                200: "#fecdd3",
+                300: "#fda4af",
+                400: "#fb7185",
+                500: "#f43f5e",
+                600: "#e11d48",
+              },
+            },
+            fontFamily: {
+              sans: ["Poppins", "sans-serif"],
+              cursive: ["Dancing Script", "cursive"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* Custom Keyframe Animations */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(5deg);
+        }
+      }
+      @keyframes pulse-slow {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.9;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 1;
+        }
+      }
+      @keyframes shine {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+      .animate-float {
+        animation: float 4s ease-in-out infinite;
+      }
+      .animate-pulse-slow {
+        animation: pulse-slow 2.5s infinite;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 20px 50px rgba(244, 63, 94, 0.15);
+      }
+      /* Floating hearts container styling */
+      .heart-particle {
+        position: absolute;
+        pointer-events: none;
+        animation: floatUp 8s linear infinite;
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(100vh) scale(0.3);
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.8;
+        }
+        80% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-10vh) scale(1.2);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-pink-100 via-rose-100 to-pink-200 min-h-screen font-sans text-gray-800 overflow-x-hidden relative flex flex-col justify-between selection:bg-pink-300"
+  >
+    <!-- Audio Player (Background Music) -->
+    <audio id="bgMusic" loop preload="auto">
+      <!-- Royalty Free Soft Romantic Piano Track -->
+      <source
+        src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!-- Dynamic Floating Hearts Background -->
+    <div
+      id="heartsContainer"
+      class="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+    ></div>
+
+    <!-- Music Control Float Button -->
+    <button
+      id="musicBtn"
+      onclick="toggleMusic()"
+      class="fixed top-5 right-5 z-50 glass p-3.5 rounded-full text-pink-600 shadow-lg hover:scale-110 transition-transform duration-300 flex items-center justify-center"
+    >
+      <i id="musicIcon" class="fas fa-music text-xl"></i>
+    </button>
+
+    <!-- Main Wrapper -->
+    <main
+      class="relative z-10 flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8 min-h-screen"
+    >
+      <!-- STEP 0: Pre-Landing Confirmation Screen (BARU) -->
+      <div
+        id="stepWelcome"
+        class="glass-card max-w-md w-full rounded-3xl p-6 sm:p-10 text-center transition-all duration-700 transform scale-100 opacity-100 relative z-20"
+      >
+        <div
+          class="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-5 text-pink-500 shadow-inner animate-pulse-slow"
+        >
+          <i class="fas fa-envelope-open-text text-4xl animate-bounce"></i>
+        </div>
+
+        <div
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/80 text-pink-600 text-xs font-semibold mb-4 border border-pink-200 shadow-sm"
+        >
+          <i class="fas fa-lock text-pink-500"></i> Pesan Rahasia Rahasia Untuk
+          Rara
+        </div>
+
+        <h1 class="font-cursive text-4xl text-pink-600 mb-3">Halo Rara 💕</h1>
+        <p class="text-gray-600 text-sm leading-relaxed mb-8">
+          Ada sebuah pesan manis dan penting yang khusus dibuat untukmu. Apakah
+          kamu sudah siap untuk membukanya sekarang?
+        </p>
+
+        <button
+          onclick="startExperience()"
+          class="w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 text-base cursor-pointer"
+        >
+          <i class="fas fa-heart text-lg"></i> Siap, Buka Pesan 💖
+        </button>
+      </div>
+
+      <!-- STEP 1: Main Love Proposal Card -->
+      <div
+        id="stepProposal"
+        class="glass-card max-w-lg w-full rounded-3xl p-6 sm:p-10 text-center transition-all duration-700 transform scale-95 opacity-0 hidden relative"
+      >
+        <!-- Cute Header Badge -->
+        <div
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/80 text-pink-600 text-xs sm:text-sm font-semibold mb-6 border border-pink-200 shadow-sm animate-pulse-slow"
+        >
+          <i class="fas fa-sparkles text-pink-500"></i> Ada Pesan Spesial
+          Untukmu <i class="fas fa-sparkles text-pink-500"></i>
+        </div>
+
+        <!-- Avatar / Cute GIF Header -->
+        <div class="relative w-32 h-32 mx-auto mb-6">
+          <div
+            class="absolute inset-0 bg-pink-400 rounded-full blur-lg opacity-40 animate-pulse"
+          ></div>
+          <img
+            src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=400&auto=format&fit=crop"
+            alt="Romantic Hearts"
+            class="relative w-full h-full object-cover rounded-full border-4 border-white shadow-md animate-float"
+            onerror="
+              this.src = 'https://placehold.co/150x150/fda4af/ffffff?text=❤️'
+            "
+          />
+        </div>
+
+        <!-- Romantic Greeting -->
+        <h1
+          class="font-cursive text-4xl sm:text-5xl text-pink-600 mb-3 drop-shadow-sm"
+        >
+          Hai Rara Cantik... 💕
+        </h1>
+        <p class="text-gray-600 text-sm sm:text-base leading-relaxed mb-8">
+          untuk kali ini benar benar tidak bermain dengan cinta, cintaku kali
+          ini lebih serius dan tulus dari yang kemarin, tolong jangan sia sia
+          kan energi terakhirku dan jadilah cinta yang abadi.
+        </p>
+
+        <!-- Big Question -->
+        <div
+          class="bg-pink-50/80 p-5 rounded-2xl border border-pink-100 mb-8 shadow-inner"
+        >
+          <h2
+            class="text-lg sm:text-xl font-bold text-gray-800 flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-heart text-pink-500 animate-bounce"></i>
+            Will you be my girlfriend?
+            <i class="fas fa-heart text-pink-500 animate-bounce"></i>
+          </h2>
+          <p class="text-xs text-pink-500 mt-1 font-medium">
+            Mau nggak kamu jadi teman hidup & kebahagiaanku?
+          </p>
+        </div>
+
+        <!-- Action Buttons Container -->
+        <div
+          class="relative min-h-[60px] flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <!-- YES Button -->
+          <button
+            onclick="openLoyaltyModal()"
+            class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <i class="fas fa-heart text-lg"></i> Ya, Aku Mau!
+          </button>
+
+          <!-- NO Button (Opens WhatsApp with 'Hai mantan !!!') -->
+          <button
+            id="noBtn"
+            onclick="rejectProposal()"
+            class="w-full sm:w-auto px-8 py-3.5 bg-white text-gray-500 font-semibold rounded-2xl shadow-md border border-gray-200 hover:bg-gray-50 hover:text-gray-700 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <i class="fas fa-times text-xs"></i> Tidak
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Modal Kesetiaan / Commitment Check Modal -->
+      <div
+        id="loyaltyModal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-500"
+      >
+        <div
+          class="glass-card max-w-md w-full rounded-3xl p-6 sm:p-8 text-center transform scale-90 transition-all duration-500 relative border-2 border-pink-300"
+        >
+          <!-- Close/Warning Badge -->
+          <div
+            class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-500 shadow-inner"
+          >
+            <i class="fas fa-hand-holding-heart text-3xl animate-pulse"></i>
+          </div>
+
+          <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+            Tunggu Dulu, Rara... 🤝
+          </h3>
+          <p
+            class="text-xs text-pink-600 font-medium tracking-wide uppercase mb-4"
+          >
+            Modal Kesetiaan Hubungan Kita
+          </p>
+
+          <!-- Serious Question Prompt -->
+          <div
+            class="bg-gradient-to-r from-pink-50 to-rose-50 p-4 rounded-2xl border border-pink-200 mb-6 text-left shadow-sm"
+          >
+            <p
+              class="text-xs sm:text-sm text-gray-700 font-medium leading-relaxed"
+            >
+              Sebelum aku terima jawaban indahmu, aku butuh komitmen penuh dari
+              hatimu:
+            </p>
+            <p
+              class="text-sm sm:text-base font-bold text-pink-600 mt-2 italic text-center"
+            >
+              "Apakah kamu masih akan mengulangi kelakuanmu masa lalu (selingkuh
+              dengan yang lain)?"
+            </p>
+          </div>
+
+          <!-- Interactive Checkboxes/Guarantees -->
+          <div class="space-y-3 mb-6 text-left">
+            <label
+              class="flex items-center p-3 rounded-xl bg-white/80 border border-pink-100 cursor-pointer hover:bg-pink-50 transition-colors"
+            >
+              <input
+                type="checkbox"
+                id="check1"
+                onchange="validateCommitment()"
+                class="w-4 h-4 text-pink-600 rounded border-gray-300 focus:ring-pink-500"
+              />
+              <span class="ml-3 text-xs sm:text-sm font-medium text-gray-700"
+                >Aku janji 100% TIDAK AKAN PERNAH selingkuh lagi.</span
+              >
+            </label>
+            <label
+              class="flex items-center p-3 rounded-xl bg-white/80 border border-pink-100 cursor-pointer hover:bg-pink-50 transition-colors"
+            >
+              <input
+                type="checkbox"
+                id="check2"
+                onchange="validateCommitment()"
+                class="w-4 h-4 text-pink-600 rounded border-gray-300 focus:ring-pink-500"
+              />
+              <span class="ml-3 text-xs sm:text-sm font-medium text-gray-700"
+                >Aku akan selalu terbuka & menjaga hatimu.</span
+              >
+            </label>
+          </div>
+
+          <!-- Action Buttons in Modal -->
+          <div class="flex flex-col gap-2">
+            <button
+              id="confirmCommitmentBtn"
+              disabled
+              onclick="acceptProposal()"
+              class="w-full py-3.5 bg-gray-300 text-gray-500 font-semibold rounded-2xl transition-all duration-300 cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              <i class="fas fa-lock"></i> Aku Berjanji Sepenuh Hati!
+            </button>
+            <button
+              onclick="closeLoyaltyModal()"
+              class="py-2 text-xs font-medium text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              Beri aku waktu berpikir
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Celebration Screen (Success Screen) -->
+      <div
+        id="stepCelebration"
+        class="glass-card max-w-xl w-full rounded-3xl p-6 sm:p-10 text-center hidden transform scale-95 opacity-0 transition-all duration-700"
+      >
+        <div
+          class="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6 text-pink-500 shadow-md animate-bounce"
+        >
+          <i class="fas fa-heart text-4xl"></i>
+        </div>
+
+        <h1 class="font-cursive text-4xl sm:text-6xl text-pink-600 mb-3">
+          Yaaay! Official Today! 🎉
+        </h1>
+        <p class="text-sm sm:text-base text-gray-600 mb-6">
+          Terima kasih ya Rara manis sudah memilihku dan memberikan kepercayaan
+          penuh. Aku janji akan selalu membahagiakanmu setiap hari! 💕
+        </p>
+
+        <!-- Cute Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          <div
+            class="bg-white/80 p-4 rounded-2xl border border-pink-100 text-left"
+          >
+            <div class="text-pink-500 mb-1">
+              <i class="fas fa-calendar-alt text-lg"></i>
+            </div>
+            <p class="text-xs text-gray-400 font-semibold">Tanggal Spesial</p>
+            <p id="officialDate" class="text-sm font-bold text-gray-700"></p>
+          </div>
+          <div
+            class="bg-white/80 p-4 rounded-2xl border border-pink-100 text-left"
+          >
+            <div class="text-pink-500 mb-1">
+              <i class="fas fa-shield-heart text-lg"></i>
+            </div>
+            <p class="text-xs text-gray-400 font-semibold">Status Janji</p>
+            <p class="text-sm font-bold text-pink-600">Terunci & Abadi ✨</p>
+          </div>
+        </div>
+
+        <!-- Love Note Card -->
+        <div
+          class="bg-pink-50/90 p-5 rounded-2xl border border-pink-200 text-left mb-8 shadow-sm"
+        >
+          <h4
+            class="text-sm font-bold text-pink-600 mb-2 flex items-center gap-2"
+          >
+            <i class="fas fa-quote-left"></i> Catatan Cinta Untuk Rara
+          </h4>
+          <p class="text-xs sm:text-sm text-gray-600 italic leading-relaxed">
+            "Masa lalu adalah pelajaran, masa kini adalah kesempatan, dan masa
+            depan adalah milik kita bersama. Mari kita buat cerita indah tanpa
+            luka baru."
+          </p>
+        </div>
+
+        <!-- Interactive Buttons in Celebration -->
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button
+            onclick="triggerConfetti()"
+            class="px-6 py-2.5 bg-pink-100 text-pink-600 rounded-xl font-semibold text-xs sm:text-sm hover:bg-pink-200 transition-colors"
+          >
+            <i class="fas fa-sparkles"></i> Bariskan Bunga & Confetti
+          </button>
+          <button
+            onclick="sendAcceptedMessage()"
+            class="px-6 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-semibold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all"
+          >
+            <i class="fab fa-whatsapp"></i> Kirim Pesan ke WA Lagi
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Footer Footer -->
+    <footer
+      class="relative z-10 text-center py-4 text-xs text-pink-500 font-medium"
+    >
+      Made with ❤️ for Rara | Special Forever Edition
+    </footer>
+
+    <!-- Interactive JavaScript Logic -->
+    <script>
+      // Target WhatsApp Number (Formatted for International Standard: 085855227279 -> 6285855227279)
+      const TARGET_PHONE = "6285855227279";
+
+      // Set Today's Official Date
+      document.getElementById("officialDate").innerText =
+        new Date().toLocaleDateString("id-ID", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+
+      // Background Music Controls
+      const bgMusic = document.getElementById("bgMusic");
+      const musicIcon = document.getElementById("musicIcon");
+      let isPlaying = false;
+
+      function toggleMusic() {
+        if (isPlaying) {
+          bgMusic.pause();
+          musicIcon.className = "fas fa-music text-xl text-pink-600";
+        } else {
+          bgMusic
+            .play()
+            .then(() => {
+              musicIcon.className =
+                "fas fa-pause text-xl text-pink-600 animate-spin";
+            })
+            .catch((e) => console.log("Audio play deferred", e));
+        }
+        isPlaying = !isPlaying;
+      }
+
+      // Start Experience from Pre-Landing Screen
+      function startExperience() {
+        if (!isPlaying) {
+          toggleMusic();
+        }
+
+        const step0 = document.getElementById("stepWelcome");
+        const step1 = document.getElementById("stepProposal");
+
+        // Fade out Pre-Landing Screen
+        step0.classList.add("opacity-0", "scale-95");
+
+        setTimeout(() => {
+          step0.classList.add("hidden");
+
+          // Fade in Main Proposal Screen
+          step1.classList.remove("hidden");
+          setTimeout(() => {
+            step1.classList.remove("opacity-0", "scale-95");
+            step1.classList.add("opacity-100", "scale-100");
+          }, 50);
+        }, 600);
+      }
+
+      // Spawn Floating Hearts in Background
+      function createFloatingHearts() {
+        const container = document.getElementById("heartsContainer");
+        const heartIcons = [
+          "fa-heart",
+          "fa-heart-circle-bolt",
+          "fa-sparkles",
+          "fa-star",
+        ];
+        const colors = [
+          "text-pink-300",
+          "text-pink-400",
+          "text-rose-300",
+          "text-rose-200",
+        ];
+
+        for (let i = 0; i < 20; i++) {
+          const heart = document.createElement("i");
+          const randomIcon =
+            heartIcons[Math.floor(Math.random() * heartIcons.length)];
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+          heart.className = `fas ${randomIcon} ${randomColor} heart-particle text-sm sm:text-lg`;
+          heart.style.left = `${Math.random() * 100}%`;
+          heart.style.animationDelay = `${Math.random() * 8}s`;
+          heart.style.animationDuration = `${6 + Math.random() * 6}s`;
+          container.appendChild(heart);
+        }
+      }
+      createFloatingHearts();
+
+      // Reject Action (If Rara clicks 'Tidak')
+      function rejectProposal() {
+        const message = encodeURIComponent("Hai mantan !!!");
+        window.open(`https://wa.me/${TARGET_PHONE}?text=${message}`, "_blank");
+      }
+
+      // Modal Kesetiaan Open & Close
+      const loyaltyModal = document.getElementById("loyaltyModal");
+
+      function openLoyaltyModal() {
+        if (!isPlaying) {
+          toggleMusic();
+        }
+
+        loyaltyModal.classList.remove("opacity-0", "pointer-events-none");
+        loyaltyModal.querySelector("div").classList.remove("scale-90");
+        loyaltyModal.querySelector("div").classList.add("scale-100");
+      }
+
+      function closeLoyaltyModal() {
+        loyaltyModal.classList.add("opacity-0", "pointer-events-none");
+        loyaltyModal.querySelector("div").classList.remove("scale-100");
+        loyaltyModal.querySelector("div").classList.add("scale-90");
+      }
+
+      // Validate Checkboxes before button is active
+      function validateCommitment() {
+        const check1 = document.getElementById("check1").checked;
+        const check2 = document.getElementById("check2").checked;
+        const btn = document.getElementById("confirmCommitmentBtn");
+
+        if (check1 && check2) {
+          btn.disabled = false;
+          btn.className =
+            "w-full py-3.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-2xl shadow-lg shadow-pink-500/30 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer";
+        } else {
+          btn.disabled = true;
+          btn.className =
+            "w-full py-3.5 bg-gray-300 text-gray-500 font-semibold rounded-2xl transition-all duration-300 cursor-not-allowed flex items-center justify-center gap-2";
+        }
+      }
+
+      // Send Accepted Message to WhatsApp
+      function sendAcceptedMessage() {
+        const message = encodeURIComponent("Hai sayanggggg");
+        window.open(`https://wa.me/${TARGET_PHONE}?text=${message}`, "_blank");
+      }
+
+      // Final Acceptance Transition
+      function acceptProposal() {
+        closeLoyaltyModal();
+
+        // Automatically trigger WhatsApp opening with 'Hai sayanggggg'
+        sendAcceptedMessage();
+
+        const step1 = document.getElementById("stepProposal");
+        const step3 = document.getElementById("stepCelebration");
+
+        // Hide Step 1
+        step1.classList.add("opacity-0", "scale-95");
+
+        setTimeout(() => {
+          step1.classList.add("hidden");
+
+          // Show Celebration Step 3
+          step3.classList.remove("hidden");
+          setTimeout(() => {
+            step3.classList.remove("opacity-0", "scale-95");
+            step3.classList.add("opacity-100", "scale-100");
+            triggerConfetti();
+          }, 50);
+        }, 500);
+      }
+
+      // Trigger Canvas Confetti Effects
+      function triggerConfetti() {
+        var duration = 3 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = {
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          zIndex: 100,
+        };
+
+        function randomInRange(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        var interval = setInterval(function () {
+          var timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          var particleCount = 50 * (timeLeft / duration);
+
+          // launch confetti from both sides
+          confetti(
+            Object.assign({}, defaults, {
+              particleCount,
+              origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+              colors: ["#f43f5e", "#fda4af", "#ffffff"],
+            }),
+          );
+          confetti(
+            Object.assign({}, defaults, {
+              particleCount,
+              origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+              colors: ["#f43f5e", "#fda4af", "#ffffff"],
+            }),
+          );
+        }, 250);
+      }
+    </script>
+  </body>
+</html>
